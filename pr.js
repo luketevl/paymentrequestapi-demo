@@ -6,7 +6,7 @@ document.querySelector('#checkout').addEventListener('click', () =>{
   }
 
   // Métodos de pagamento suportados
-  var supportedInstruments = [{
+  const supportedInstruments = [{
       supportedMethods: ['visa', 'mastercard', 'amex', 'discover','diners', 'jcb', 'unionpay']
   },{
     // Integração com Android Pay
@@ -30,7 +30,7 @@ document.querySelector('#checkout').addEventListener('click', () =>{
   }];
 
   // Detalhes para Checkout
-  var details = {
+  const details = {
     displayItems: [{
       label: 'Playstation VR',
       amount: { currency: 'BRL', value: '2899.00' }
@@ -44,9 +44,13 @@ document.querySelector('#checkout').addEventListener('click', () =>{
     }
   };
 
+  const options = {
+   requestPayerEmail: true
+  };
+
   // Com as configurações previamente coletadas da transação
   // Crie uma instância do `PaymentRequest`
-  var request = new PaymentRequest(supportedInstruments, details);
+  const request = new PaymentRequest(supportedInstruments, details, options);
 
   // E finalmente exiba a interface nativa através do método `.show()`
   request.show()
