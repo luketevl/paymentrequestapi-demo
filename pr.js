@@ -45,7 +45,8 @@ document.querySelector('#checkout').addEventListener('click', () =>{
   };
 
   const options = {
-   requestPayerEmail: true
+    requestShipping: false,
+    requestPayerEmail: true
   };
 
   // Com as configurações previamente coletadas da transação
