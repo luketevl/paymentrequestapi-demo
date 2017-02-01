@@ -44,14 +44,44 @@ document.querySelector('#checkout').addEventListener('click', () =>{
     }
   };
 
+  // Configurando que vou querer coletar o email, endereço e o tipo de frete que será cobrado do usuário
   const options = {
-    requestShipping: false,
+    requestShipping: true,
     requestPayerEmail: true
   };
 
   // Com as configurações previamente coletadas da transação
   // Crie uma instância do `PaymentRequest`
   const request = new PaymentRequest(supportedInstruments, details, options);
+
+  // Configura os tipos de frete de acordo com a região que o usuário está
+  request.addEventListener('shippingaddresschange', function(evt) {
+    evt.updateWith(new Promise(function(resolve) {
+
+      const shippingOption = {
+        id: '',
+        label: '',
+        amount: {currency: 'BRL', value: '0.00'},
+        selected: true
+      };
+
+      if (request.shippingAddress.region === 'SP') {
+        shippingOption.id = 'mg';
+        shippingOption.label = 'Frete Grátis';
+        details.total.amount.value = '2890.00';
+      } else {
+        shippingOption.id = 'world';
+        shippingOption.label = 'Frete Express';
+        shippingOption.amount.value = '5.00';
+        details.total.amount.value = '2895.00';
+      }
+
+      details.displayItems.splice(2, 1, shippingOption);
+      details.shippingOptions = [shippingOption];
+
+      resolve(details);
+    }));
+  });
 
   // E finalmente exiba a interface nativa através do método `.show()`
   request.show()
