@@ -1,7 +1,9 @@
 document.querySelector('#checkout').addEventListener('click', () =>{
   if (!window.PaymentRequest) {
+    const msg = 'Este browser não suporta a Payment Request API! :(';
     // Caso entre nesta condicional, você pode ativar um checkout customizado de fallback
-    console.log('Este browser não suporta a Payment Request API! :(');
+    document.getElementById('feedback').innerHTML = msg;
+    console.log(msg);
     return;
   }
 
